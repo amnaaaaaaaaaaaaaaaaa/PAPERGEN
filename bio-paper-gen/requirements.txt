@@ -1,6 +1,6 @@
 streamlit==1.28.0
-pandas==2.2.2  # Newer, stable version that often avoids build issues
+pandas==2.2.2 
+numpy
 requests
 openpyxl
-reportlab
-python-docx==0.8.11  # Using a version that is known to work
+python-docx==0.8.11

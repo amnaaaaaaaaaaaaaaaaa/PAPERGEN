@@ -3,7 +3,7 @@ from datetime import date
 import pandas as pd
 import streamlit as st
 
-from modules.paraphraser import Paraphraser, ParaphraseConfig
+from paraphraser import Paraphraser, ParaphraseConfig
 from modules.selector import derive_distribution, select_questions
 from modules.pdf_builder import build_pdf
 
@@ -95,4 +95,5 @@ if st.button(" Generate Question Paper (PDF)"):
     with open(pdf_path, "rb") as f:
         pdf_bytes = f.read()
     st.download_button(" Download PDF", data=pdf_bytes, file_name=pdf_path.split("/")[-1], mime="application/pdf")
+
 

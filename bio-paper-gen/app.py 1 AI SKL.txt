@@ -1,0 +1,48 @@
+import streamlit as st
+import pandas as pd
+import random
+from modules.paraphraser import Paraphraser, ParaphraseConfig
+
+# Load question bank (you maintain this file)
+@st.cache_data
+def load_bank():
+    return pd.read_csv("data/questions.csv")   # Or read_excel if it’s Excel
+
+df_bank = load_bank()
+
+# Load paraphraser
+@st.cache_resource
+def load_paraphraser():
+    cfg = ParaphraseConfig(enabled=True, model_name="tuner007/pegasus_paraphrase")
+    return Paraphraser(cfg)
+
+paraphraser = load_paraphraser()
+
+st.title("📘 Smart Question Paper Generator")
+
+# Dropdowns for filtering
+chapters = st.multiselect("Choose Chapters", options=df_bank["Chapter"].unique())
+difficulty = st.multiselect("Choose Difficulty", options=df_bank["Difficulty"].unique())
+
+num_questions = st.number_input("How many questions?", min_value=1, max_value=20, value=5)
+
+if st.button("Generate Paper"):
+    # Filter based on user selection
+    filtered = df_bank[
+        (df_bank["Chapter"].isin(chapters)) &
+        (df_bank["Difficulty"].isin(difficulty))
+    ]
+    
+    if filtered.empty:
+        st.error("No questions found for that selection. Try again.")
+    else:
+        # Pick random sample
+        selected = filtered.sample(min(num_questions, len(filtered)))
+
+        # Paraphrase in background
+        paper = [paraphraser.paraphrase(q)[0] for q in selected["Question"]]
+
+        # Display paper
+        st.subheader("📝 Generated Question Paper")
+        for i, q in enumerate(paper, 1):
+            st.write(f"**Q{i}.** {q}")

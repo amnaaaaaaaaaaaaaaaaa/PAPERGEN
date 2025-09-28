@@ -4,3 +4,4 @@ numpy
 requests
 openpyxl
 python-docx==0.8.11
+reportlab==3.6.13  # Specifically adding ReportLab, which is causing the current error

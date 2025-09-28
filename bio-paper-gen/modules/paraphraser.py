@@ -1,4 +1,4 @@
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+#from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
 
 class ParaphraseConfig:
@@ -32,3 +32,4 @@ class Paraphraser:
                 temperature=1.5
             )
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+

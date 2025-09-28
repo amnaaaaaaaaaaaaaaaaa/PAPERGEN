@@ -4,8 +4,8 @@ import pandas as pd
 import streamlit as st
 
 from paraphraser import Paraphraser, ParaphraseConfig
-from modules.selector import derive_distribution, select_questions
-from modules.pdf_builder import build_pdf
+from selector import derive_distribution, select_questions
+from pdf_builder import build_pdf
 
 st.set_page_config(page_title="G12 Biology Paper Generator", page_icon="🧬", layout="centered")
 
@@ -95,5 +95,6 @@ if st.button(" Generate Question Paper (PDF)"):
     with open(pdf_path, "rb") as f:
         pdf_bytes = f.read()
     st.download_button(" Download PDF", data=pdf_bytes, file_name=pdf_path.split("/")[-1], mime="application/pdf")
+
 
 
